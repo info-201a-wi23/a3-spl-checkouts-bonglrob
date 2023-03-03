@@ -1,86 +1,100 @@
 ---
 title: "A3: SPL Library Checkouts"
 output: html_document
+editor_options: 
+  markdown: 
+    wrap: sentence
 ---
 
 ### Introduction
 
-An introduction of the data and a description of the trends/books/items you are choosing to analyze (and why!)
+The Seattle Public Library has released a dataset, Checkout by Title which counts the number of checkouts by title per month for all physical and digital items dating back 2005 to present.
+The dataset has been filtered down to only contain any media that has been distributed from Viz Media, which is the largest publisher of graphic novels in the US.
+This publisher is known for specializing in publishing manga and Japanese media licensing and distribution.
+I wanted to see what titles were popular and how interest in Japanese media has changed over time.
 
 ### Summary Information
 
-Write a summary paragraph of findings that includes the 5 values calculated from your summary information R script
+```{r, echo = FALSE, code = readLines("summary.R"), message = FALSE, warning = FALSE}
+```
 
-These will likely be calculated using your DPLYR skills, answering questions such as:
-
-- What is the average number of checkouts for each item?
-- What is the month or year with the most/least checkouts for a book that you're interested in?
-- What is the month or year with the most/least checkouts for ebooks?
-- How has the number of print book checkouts changed over time?
-
-Feel free to calculate and report values that you find relevant.
+The most checkouts for Viz Media media for any given month was `r summary_info$most_checkouts` books and discs on `r summary_info$date_most_checkouts`. The least checkouts was `r summary_info$least_checkouts` books and discs on `r summary_info$date_least_checkouts`. The most popular book is `r summary_info$most_popular_title` and the most popular video disc is `r summary_info$most_popular_disc`. The most popular creator is `r summary_info$most_popular_creator`.
 
 ### The Dataset
 
-- Who collected/published the data?  
-- What are the parameters of the data (dates, number of checkouts, kinds of books, etc.)?
-- How was the data collected or generated?  
-- Why was the data collected?  
-- What, if any, ethical questions do you need to consider when working with this data?  
-- What are possible limitations or problems with this data?   (at least 200 words)
+-   Who collected/published the data?
 
+> Seattle Public Library collects and publishes the data.
 
-### First Trends Over Time Chart
+-   What are the parameters of the data?
 
-Include a chart. Make sure to describe why you included the chart, and what patterns emerged
+| Parameter | Description |
+|:---|:---|
+| UsageClass | Denotes if item is "physical" or "digital" |
+| CheckoutType | Denotes vendor tool used to check out item |
+| MaterialType | Describes type of item checked out (e.g. book, movie) |
+| CheckoutYear | Checkout year |
+| CheckoutMonth | Checkout month |
+| Checkouts | Number of checkouts within the "Checkout Month" |
+| Title | Full title and subtitle of item |
+| ISBN | ISBN for associated item |
+| Creator | Author |
+| Subjects | Subject of item |
+| Publisher | Publisher |
+| PublicationYear | Year item was published, printed or copyrighted |
 
-The first chart that you will create and include will show the trend over time of your variable/topic/interest. Think carefully about what you want to communicate to your user (you may have to find relevant trends in the dataset first!). Here are some requirements to help guide your design:
+-   How was the data collected or generated?
 
-- Show more than one, but fewer than ~10 trends
-  - For example, two books, or 5 different mediums
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear - legend title
-In your .Rmd file, make sure to describe why you included the chart, and what patterns emerged
+> Data for digital items is collected from media vendors such as Overdrive, hoopla, Freegal, and RBDigital. For physical items from April 2005 to September 30, 2016, data was sourced from the Legrady artwork data archives. For October 1, 2016 to the present, the data is now sourced from Horizon ILS. 
 
-When we say "clear" or "human readable" titles and labels, that means that you should not just display the variable name.
+-   Why was the data collected?
 
-Here's an example of how to run an R script inside an RMarkdown file:
+> Initially, George Legrady collected the data for a data visualization art piece, "Making Visible the Invisible", to show the Seattle community what books people were reading at the time. 
+  In September 2016, The City of Seattle enacted the The Open Data Program with the purpose of "increasing the quality of life for our residents; increasing transparency, accountability and comparability; promoting economic development and research; and improving internal performance management."
 
-``````{r, echo = FALSE, warning = FALSE, code = readLines("chart1_example.R")}
+-   What, if any, ethical questions do you need to consider when working with this data?
+
+> Does a decrease in checkouts for books and an increase in checkouts for ebooks truly mean a demand for one platform to another?
+It could mean that if ebooks is trending too slowly doesn't mean a lack of demand for the platform, but its possible that people are not aware of digital platforms and there's a lack of assessiblity. 
+
+-   What are possible limitations or problems with this data? (at least 200 words)
+
+> There's a limitation on how to gauge the metric for popularity as the number of monthly checkouts for titles isn't the only important factor. For instance, checkouts are only counted by its initial checkout. Therefore, renewals are not counted as it could mean people are not likely to drop off from reading a particular title immediately. Currently, its quite difficult to spot trends in how long books are rented out for. Supply count is also a big factor in judging popularity as that titles that are often out of supply for too long of a period show a possible need for the library to order new books. Also, there's no identifier for knowing who is checking out the book, whether it's someone who comes to the library regularly or a new person. It's not a farfetched assumption to believe that the spike in chckouts for the summer months is due to young readers taking advantage of summer reading programs and then dropping off due to the start of the school year in August and September. Overall, Viz Media is usually catered for that demographic anyways, but there's no surefire way to determine the true age group of Seattle Public Library's readers. 
+Lastly, the most glaring issue for this set is that it neglects other possible graphic novel publishers, as Viz Media is not the only publisher out of SPL. 
+
+### Viz Media Total Checkouts at Seattle Public Library (Apr 2017 - Feb 2023)
+
+# Description
+This plots the number of times a title that has been published by Viz Media has been checked out at the Seattle Public Library. There are 3 categories: Books, eBooks and Video Discs. Since data collection for eBooks have begun in April 2017, the data begins at that date and up to the latest date of February 2023.
+
+# Insights
+The biggest outlier in the graph is the months between April to August 2020 where there was a massive drop for physical book checkouts due to the pandemic and quarantine policy in effect. In September of that year, physical book checkouts start to increase again soon returning back to the usual pattern seen in high checkouts in June and the following summer months to a decrease in checkouts at the start of autumn. 
+Video discs checkouts also faced a similar drop in checkouts as physical books during the months of April and August 2020. Although, there's still a steady number of checkouts for for video discs, the number of checkouts following the pandemic will never be as high as it was pre-pandemic.
+Ebooks seem to have a slow upward trend, but nothing too surprising.
+
+```{r, echo = FALSE, code = readLines("chart1_example.R"), message = FALSE, warning = FALSE}
 ```
 
-### Second Trends Over Time Chart
+### Top 3 Viz Media Series in 2022 at SPL (Excluding Pokémon)
 
-Include a chart. Make sure to describe why you included the chart, and what patterns emerged
+##### Description
+This is a graph of the top 3 series published by Viz Media (excluding Pokémon) in 2022 based on total checkouts for that year. Each month shows the amount of times each series have been checked out for that month.
 
-The second chart that you will create and include will show another trend over time of your variable/topic/interest. Think carefully about what you want to communicate to your user (you may have to find relevant trends in the dataset first!). Here are some requirements to help guide your design:
 
-- Show more than one, but fewer than ~10 trends
-  - For example, two books, or 5 different mediums
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear - legend title
-In your .Rmd file, make sure to describe why you included the chart, and what patterns emerged
+##### Insights
+For all books, there was a sharp increase in checkouts for the month of June with an eventual decline in checkouts in October. Every book trended downwards for checkouts as the end of the year approached. Also, all the books had a steady rate of which they were being checked out per month with Demon slayer and Splatoon having almost the same amount of checkouts in June and August. 
+One piece, on the other hand, has had a lot of checkouts at the beginning of the year before losing more than half of that number by years' end.
 
-When we say "clear" or "human readable" titles and labels, that means that you should not just display the variable name.
-
-Here's an example of how to run an R script inside an RMarkdown file:
-
-``````{r, echo = FALSE, code = readLines("chart2_example.R")}
+```{r, echo = FALSE, code = readLines("chart2_example.R"), message = FALSE, warning = FALSE}
 ```
 
-### Your Choice
+### Top Viz Media Series of All Time & Most Recent (2022) at SPL
 
-The last chart is up to you. It could be a line plot, scatter plot, histogram, bar plot, stacked bar plot, and more. Here are some requirements to help guide your design:
+##### Description
+Both the top and bottom graphs represent the top 10 series published by Viz Media based on total checkouts. The top bar graph represents the top 10 series from the time frame of 2005 to Present day whereas the bottom one represents what titles are being checked out most recently in 2022. 
 
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear legend title
+##### Insights
+Pokemon is the number one series to be checked out of all time and wins by a huge margin compared to other series. The 2nd most checked out title would be Naruto which only has half the checkouts that Pokemon has. In recent times, Pokemon continues to dominate with having 4x as many checkouts compared to the next popular series. Only Pokemon, Naruto and One Piece were the only series from the all-time graph to remain in the 2022's graph in terms of total checkouts.
 
-Here's an example of how to run an R script inside an RMarkdown file:
-
-``````{r, echo = FALSE, code = readLines("chart2_example.R")}
+```{r, echo = FALSE, code = readLines("chart3_example.R"), warning = FALSE, message = FALSE}
 ```
-
-
